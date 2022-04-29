@@ -1,7 +1,7 @@
 # import socket
 from socket import *
 
-#SERVER_ADDRESS = ('localhost', 13000)
+# SERVER_ADDRESS = ('localhost', 13000)
 serverName = 'localhost'
 serverPort = 13000
 SERVER_ADDRESS = (serverName, serverPort)
