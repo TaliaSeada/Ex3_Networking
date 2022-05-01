@@ -7,7 +7,7 @@ import sys  # In order to terminate the program
 serverSocket = socket(AF_INET, SOCK_STREAM)
 # Prepare a sever socket
 # Fill in start
-SERVER_ADDRESS = ('', 13000)
+SERVER_ADDRESS = ('', 12999)
 serverSocket.bind(SERVER_ADDRESS)
 serverSocket.listen(1)
 # Fill in end
