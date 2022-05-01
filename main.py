@@ -1,39 +1,34 @@
-# import socket module
 from socket import *
-import sys  # In order to terminate the program
+import sys 
 
+# the URL
 # http://127.0.0.1:13000/HelloWorld.html
 
 serverSocket = socket(AF_INET, SOCK_STREAM)
-# Prepare a sever socket
-# Fill in start
+#preparing socket with local host
 SERVER_ADDRESS = ('', 13000)
 serverSocket.bind(SERVER_ADDRESS)
+# waiting for 1 connection
 serverSocket.listen(1)
-# Fill in end
 while True:
     # Establish the connection
     print('Ready to serve...')
-    # Fill in start
+    # accepting the connection
     connectionSocket, addr = serverSocket.accept()
-    # Fill in end
 
     try:
-        # Fill in start
         message = connectionSocket.recv(1024)
-        # Fill in end
+        # reading the file name to read
         filename = message.split()[1]
         f = open(filename[1:])
-        # Fill in start
+        # reading the file
         outputdata = f.read()
-        #Fill in end
 
         # Send one HTTP header line into socket
-        # Fill in start
+        # sending the ok messege for the request
         connectionSocket.send(b"HTTP/1.1 200 OK\r\n\r\n")
-        # Fill in end
 
-        # Send the content of the requested file to the client
+        # Send the content of the requested HTML file to the client
         for i in range(0, len(outputdata)):
             connectionSocket.send(outputdata[i].encode())
         connectionSocket.send("\r\n".encode())
@@ -41,16 +36,14 @@ while True:
         connectionSocket.close()
     except IOError:
         # Send response message for file not found
-        # Fill in start
+        # printing not found to know there is a problem
         print("404 Not Found")
+        # sending a fault messege incase of 404
         connectionSocket.send(b"HTTP/1.1 404 Not Found\r\n\r\n")
-        # Fill in end
-
-        # Close client socket
-        # Fill in start
+        # Closing the connection client socket
         connectionSocket.close()
         break
-        # Fill in end
 
+# closing the entire server
 serverSocket.close()
 sys.exit()  # Terminate the program after sending the corresponding data
