@@ -7,7 +7,7 @@ import sys  # In order to terminate the program
 serverSocket = socket(AF_INET, SOCK_STREAM)
 # Prepare a sever socket
 # Fill in start
-SERVER_ADDRESS = ('', 12999)
+SERVER_ADDRESS = ('', 13000)
 serverSocket.bind(SERVER_ADDRESS)
 serverSocket.listen(1)
 # Fill in end
@@ -39,7 +39,7 @@ while True:
         connectionSocket.send("\r\n".encode())
 
         connectionSocket.close()
-    except FileNotFoundError:
+    except IOError:
         # Send response message for file not found
         # Fill in start
         print("404 Not Found")
