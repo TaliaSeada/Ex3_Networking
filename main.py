@@ -7,7 +7,7 @@ import sys  # In order to terminate the program
 serverSocket = socket(AF_INET, SOCK_STREAM)
 # Prepare a sever socket
 # Fill in start
-SERVER_ADDRESS = ('', 12999)
+SERVER_ADDRESS = ('', 1111)
 serverSocket.bind(SERVER_ADDRESS)
 serverSocket.listen(1)
 # Fill in end
@@ -23,14 +23,14 @@ while True:
         message = connectionSocket.recv(1024)
         # Fill in end
         filename = message.split()[1]
-        f = open(filename[1:])
+        f = open(filename[1:],encoding='utf8',errors='ignore')
         # Fill in start
         outputdata = f.read()
         #Fill in end
 
         # Send one HTTP header line into socket
         # Fill in start
-        connectionSocket.send(b"HTTP/1.1 200 OK\r\n\r\n")
+        connectionSocket.send("HTTP/1.1 200 OK\r\n\r\n".encode())
         # Fill in end
 
         # Send the content of the requested file to the client
@@ -43,7 +43,7 @@ while True:
         # Send response message for file not found
         # Fill in start
         print("404 Not Found")
-        connectionSocket.send(b"HTTP/1.1 404 Not Found\r\n\r\n")
+        connectionSocket.send("HTTP/1.1 404 Not Found\r\n\r\n".encode())
         # Fill in end
 
         # Close client socket
