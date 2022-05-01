@@ -2,6 +2,8 @@
 from socket import *
 import sys  # In order to terminate the program
 
+# http://127.0.0.1:13000/HelloWorld.html
+
 serverSocket = socket(AF_INET, SOCK_STREAM)
 # Prepare a sever socket
 # Fill in start
@@ -18,35 +20,37 @@ while True:
 
     try:
         # Fill in start
-        message = input('Input file name:')
+        message = connectionSocket.recv(1024)
         # Fill in end
-    #     filename = message.split()[1]
-    #     f = open(filename[1:])
-    #     # Fill in start
-    #     outputdata =
-    #     #Fill in end
-    #
-    #     # Send one HTTP header line into socket
-    #     # Fill in start
-    #     # TODO
-    #     # Fill in end
-    #
-    #     # Send the content of the requested file to the client
-    #     for i in range(0, len(outputdata)):
-    #         connectionSocket.send(outputdata[i].encode())
-    #     connectionSocket.send("\r\n".encode())
-    #
-    #     connectionSocket.close()
+        filename = message.split()[1]
+        f = open(filename[1:])
+        # Fill in start
+        outputdata = f.read()
+        #Fill in end
+
+        # Send one HTTP header line into socket
+        # Fill in start
+        connectionSocket.send(b"HTTP/1.1 200 OK\r\n\r\n")
+        # Fill in end
+
+        # Send the content of the requested file to the client
+        for i in range(0, len(outputdata)):
+            connectionSocket.send(outputdata[i].encode())
+        connectionSocket.send("\r\n".encode())
+
+        connectionSocket.close()
     except FileNotFoundError:
         # Send response message for file not found
         # Fill in start
         print("404 Not Found")
+        connectionSocket.send(b"HTTP/1.1 404 Not Found\r\n\r\n")
         # Fill in end
 
-        # # Close client socket
-        # # Fill in start
-        # clientSocket.close()
-        # # Fill in end
+        # Close client socket
+        # Fill in start
+        connectionSocket.close()
+        break
+        # Fill in end
 
 serverSocket.close()
 sys.exit()  # Terminate the program after sending the corresponding data
