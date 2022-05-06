@@ -1,12 +1,15 @@
 from socket import *
-import sys 
+import sys
 
-# the URL
+# the URL (local host)
 # http://127.0.0.1:13000/HelloWorld.html
+# the URL
+# http://192.168.1.69:13000/HelloWorld.html
+
 
 serverSocket = socket(AF_INET, SOCK_STREAM)
-#preparing socket with local host
-SERVER_ADDRESS = ('', 13000)
+# preparing socket with local host
+SERVER_ADDRESS = ('0.0.0.0', 13000)
 serverSocket.bind(SERVER_ADDRESS)
 # waiting for 1 connection
 serverSocket.listen(1)
@@ -17,7 +20,7 @@ while True:
     connectionSocket, addr = serverSocket.accept()
 
     try:
-        message = connectionSocket.recv(1024)
+        message = connectionSocket.recv(1024).decode()
         # reading the file name to read
         filename = message.split()[1]
         f = open(filename[1:])
