@@ -40,7 +40,7 @@ while True:
         print("404 Not Found")
         # sending a fault messege incase of 404
         connectionSocket.send(b"HTTP/1.1 404 Not Found\r\n\r\n")
-        f = open("NotFound.html")
+        f = open(b"NotFound.html")
         outputdata = f.read()
         for i in range(0, len(outputdata)):
             connectionSocket.send(outputdata[i].encode())
