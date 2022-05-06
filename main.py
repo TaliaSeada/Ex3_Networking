@@ -1,6 +1,6 @@
 from socket import *
 import sys
-
+import time
 # the URL (local host)
 # http://127.0.0.1:13000/HelloWorld.html
 # the URL
@@ -18,7 +18,7 @@ while True:
     print('Ready to serve...')
     # accepting the connection
     connectionSocket, addr = serverSocket.accept()
-
+    print(f"new connection {addr} accepted")
     try:
         message = connectionSocket.recv(1024).decode()
         # reading the file name to read
@@ -29,13 +29,16 @@ while True:
 
         # Send one HTTP header line into socket
         # sending the ok messege for the request
-        connectionSocket.send(b"HTTP/1.1 200 OK\r\n\r\n")
-
+        OK = "HTTP/1.1 200 OK\r\n\r\n"
+        connectionSocket.send(OK.encode())
+        # to get the ok messege and not other stuff
+        time.sleep(2)
         # Send the content of the requested HTML file to the client
         for i in range(0, len(outputdata)):
             connectionSocket.send(outputdata[i].encode())
         connectionSocket.send("\r\n".encode())
-
+        print("finished sending file")
+        
         connectionSocket.close()
     except IOError:
         # Send response message for file not found
