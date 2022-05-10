@@ -3,9 +3,18 @@ from socket import *
 
 # for command line input
 import sys
-
-	
-while True:
+def getData(socket):
+	while True:
+	# getting the file content
+			answer = clientSocket.recv(1024)
+			f.write(answer.decode())
+			try:
+				clientSocket.sendall(b"ping")
+			except Exception as e:
+				print("socket broke")
+				return
+flag = True
+while flag:
 	try:
 
 		serverName = sys.argv[1] # IP
@@ -22,10 +31,10 @@ while True:
 		print("from server: " + str(answer.decode() + " now on to the file!"))
         # opening file
 		f = open(file, "w")
-		while True:
-            # getting the file content
-			answer = clientSocket.recv(1024)
-			f.write(answer.decode())
+		getData(socket)
+		print("need to get out")
+		flag = False
+		break
 	except IOError as e:
 		error = str(e)
 		split1 = error.split()[1]
